@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</head>
+<body>
+    
+    <table>
+        <thead>        
+       <th>Edad</th>
+        <th>Identificación</th>
+       <th>Nombre</th>
+
+        </thead>
+
+        <tbody>
+            <tr>   <td>20  </td>
+                <td>12122012  </td>
+                <td>Juan  </td>
+            </tr>
+
+             <tr> <td>40  </td>
+                <td>34322012  </td>
+                <td>Ana  </td>
+                <td>lll</td>
+            </tr>
+
+
+
+        </tbody>
+    </table>
+    <br>
+         <br>
+<h1>Lista de Personas para Analisis</h1>
+ <table class="table table-success table-striped">
+        <thead>        
+       <th>Edad</th>
+        <th>Identificación</th>
+       <th>Nombre</th>
+
+        </thead>
+
+        <tbody id="cuerpoTabla">
+
+        
+
+        </tbody>
+    </table>
+<script>
+    async function obtenerdatos(){
+     respuesta = await fetch("http://127.0.0.1:5000/listaEstudiantes");
+     console.log(respuesta)
+      datos = await respuesta.json();
+    console.log(datos);
+    cuerpoTabla = document.getElementById("cuerpoTabla");
+    
+    cuerpoTabla.innerHTML = " ";
+    datos.forEach(Estudiante => {
+        Fila = document.createElement("tr");
+        Fila.innerHTML = `<td>${Estudiante.edad}  </td>  <td> ${Estudiante.identificacion} </td> <td> 
+            ${Estudiante.nombre}  </td> `; 
+        cuerpoTabla.appendChild(Fila);
+
+        
+    });
+
+    }
+
+    document.addEventListener("DOMContentLoaded", obtenerdatos);
+   
+</script>
+
+</body>
+</html>
