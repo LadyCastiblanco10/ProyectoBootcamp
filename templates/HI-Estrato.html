@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Análisis del Estrato Socioeconómico</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/static/css/estilos2.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+
+    <style>
+        .boton-descarga {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #2b7cff;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .boton-descarga:hover {
+            background: #1d5ecc;
+        }
+        .separador {
+            height: 35px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header></header>
+
+<div class="contenedor">
+
+    <!-- INTRODUCCIÓN -->
+    <div class="tarjeta">
+        <center><h2>Análisis del Estrato Socioeconómico</h2></center>
+        <p>
+            Esta sección examina cómo se distribuyen los estratos socioeconómicos en los casos reportados
+            y cómo se relacionan con variables como edad, área de residencia y barrios.  
+            El estrato es un indicador clave de desigualdad, acceso a servicios, vulnerabilidad y condiciones de vida.
+        </p>
+    </div>
+
+    <!-- TABLA -->
+    <div class="tarjeta">
+        <h2>Datos</h2>
+
+        <table id="tablaDatos" class="display" width="100%">
+            <thead>
+                <tr>
+                    {% for col in columnas %}
+                    <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for fila in tabla %}
+                <tr>
+                    {% for col in columnas %}
+                    <td>{{ fila[col] }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="separador"></div>
+
+    <!-- GRÁFICAS -->
+    <div class="tarjeta">
+        <center><h2>Interpretación de los gráficos</h2></center>
+        <p>
+            Las visualizaciones permiten comprender cómo se distribuye el estrato socioeconómico,
+            qué grupos presentan mayores niveles, y cómo influyen variables como la edad y el entorno residencial.
+            Esto ayuda a identificar posibles brechas sociales, zonas vulnerables y dinámicas del entorno.
+        </p>
+
+        <!-- G1 -->
+        <h2>Distribución de los estratos socioeconómicos</h2>
+        <img src="/static/{{ g1 }}" class="grafica">
+        <div class="analisis">
+            <p>
+                La grafica muestra una fuerte concentración de casos en los estratos 1, 2 y 3. Esta tendencia evidencia que 
+                la mayoría de las víctimas de violencia provienen de sectores con limitadas condiciones económicas y sociales.
+                Esta distribución refleja un patrón social ya conocido: 
+                  la violencia tiende a ser más frecuente en contextos donde la vulnerabilidad económica, la desigualdad y 
+                  la precariedad de acceso a servicios son mayores, lo cual puede incrementar la exposición al riesgo, la 
+                  dependencia económica y las dificultades para buscar apoyo institucional.
+
+            </p>
+        </div>
+
+
+
+        <!-- G3 -->
+        <h2>Estrato promedio por área residencial</h2>
+        <img src="/static/{{ g3 }}" class="grafica">
+        <div class="analisis">
+            <p>
+                Las zonas rurales dispersas presentan un estrato promedio cercano a 1, mientras que las cabeceras municipales 
+                se ubican alrededor de estrato 2.3. Esto sugiere que en áreas rurales las víctimas se concentran en estratos 
+                aún más bajos, lo que se alinea con las condiciones socioeconómicas típicas de estas regiones. A pesar de eso, 
+                en términos absolutos la mayoría de los casos se presenta en áreas urbanas, probablemente debido a la mayor 
+                densidad poblacional y a un registro institucional más completo en las ciudades.
+        </div>
+
+        <!-- G4 -->
+        <h2>Estrato promedio por barrios más representativos</h2>
+        <img src="/static/{{ g4 }}" class="grafica">
+        <div class="analisis">
+            <p>
+                Se analizan los 20 barrios con mayor número de casos, ordenados por cantidad registrada.Se hallo que los barrios
+                 con mayor número de casos de violencia corresponden, en su mayoría, a estratos 1, 2 y algunos cercanos a 3. Los 
+                 barrios que encabezan la lista, como Runta, Altamira o Ciudad Jardín, tienen promedios bajos que indican 
+                 condiciones de vulnerabilidad social, mientras que barrios como Centro, Las Nieves o Los Muíscas, con estratos 
+                 promedio más altos, concentran también un número considerable de casos, lo cual indica que la violencia no es 
+                 exclusiva de sectores con mayor precariedad, sino que puede estar vinculada a dinámicas de convivencia urbana, 
+                 densidad poblacional o mixtura social.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="separador"></div>
+
+    <!-- CONCLUSIÓN -->
+    <div class="tarjeta">
+        <h2>Conclusión</h2>
+        <p>
+            El conjunto de gráficos revela una clara asociación entre los estratos socioeconómicos más bajos y la prevalencia de
+             la violencia, especialmente la violencia intrafamiliar y de género. Aunque el fenómeno se presenta en todas las 
+             edades y en diferentes contextos urbanos y rurales, la condición económica emerge como un factor estructural crítico 
+             que influye tanto en la aparición de la violencia como en la capacidad de las víctimas para denunciar, escapar o
+              buscar asistencia.
+        </p>
+    </div>
+
+       <div class="tarjeta">
+        <h2>Prevención</h2>
+        <p>
+            En las zonas de estratos bajos es fundamental fortalecer los programas de apoyo social, promover el acceso a servicios
+             de salud mental, educación y acompañamiento jurídico, así como desarrollar campañas de sensibilización orientadas a 
+             generar redes comunitarias que puedan detectar y atender tempranamente casos de violencia. La intervención estatal 
+             debe priorizar el fortalecimiento de capacidades económicas y sociales de familias en situación de vulnerabilidad, 
+             ya que reducir las brechas socioeconómicas disminuye la exposición al riesgo.
+<br>
+En el ámbito rural, donde el estrato promedio es aún menor, es necesario incrementar la presencia institucional mediante rutas claras, accesibles y culturalmente sensibles para la atención de víctimas.
+        </p>
+    </div>
+
+</div>
+
+<footer>
+    <p>Proyecto Observatorio de Datos – Tunja © 2025</p>
+</footer>
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#tablaDatos').DataTable();
+    });
+</script>
+
+</body>
+</html>

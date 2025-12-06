@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Consumo de Sustancias Psicoactivas</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/static/css/estilos2.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+
+    <style>
+        .boton-descarga {
+            display: inline-block;
+            padding: 10px 20px;
+            background:#2b7cff;
+            color:white;
+            text-decoration:none;
+            border-radius:8px;
+            font-weight:bold;
+            margin-top:10px;
+        }
+        .boton-descarga:hover {
+            background:#1d5ecc;
+        }
+        .separador { height:35px; }
+    </style>
+</head>
+
+<body>
+
+<header></header>
+
+<div class="contenedor">
+
+    <!-- INTRODUCCIÓN -->
+    <div class="tarjeta">
+        <center><h2>Consumo de Sustancias Psicoactivas (SPA) y Alcohol</h2></center>
+        <p>
+            En esta sección se analiza el papel del consumo de sustancias psicoactivas y alcohol como factores
+            asociados a hechos de violencia. Se incluyen variables como el tipo de sustancia consumida,
+            el mecanismo de agresión, la edad de la víctima, el sexo, y la relación con el agresor.
+        </p>
+    </div>
+
+    <!-- TABLA -->
+    <div class="tarjeta">
+        <h2>Datos</h2>
+
+        <table id="tablaDatos" class="display" width="100%">
+            <thead>
+                <tr>
+                    {% for col in columnas %}
+                    <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for fila in tabla %}
+                <tr>
+                    {% for col in columnas %}
+                    <td>{{ fila[col] }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="separador"></div>
+
+    <!-- GRÁFICAS -->
+    <div class="tarjeta">
+        <center><h2>Interpretación de los gráficos</h2></center>
+        <p>
+            Las siguientes visualizaciones permiten comprender cómo el consumo de sustancias psicoactivas
+            y alcohol influyen en los hechos de violencia, cómo varían por sexo de la víctima,
+            mecanismo de agresión, edad y relación con el agresor.
+        </p>
+
+        <!-- G1 -->
+        <h2>Distribución del consumo de SPA</h2>
+        <img src="/static/{{ g1 }}" class="grafica">
+        <div class="analisis">
+            <p>
+                El consumo de sustancias psicoactivas (SPA) por parte de los agresores es mayoritariamente
+                 bajo, con una enorme concentración de casos en la categoría “No”. Esto indica que, aunque las sustancias pueden 
+                 aumentar el riesgo o la severidad de las agresiones, la violencia de género ocurre mayoritariamente sin la 
+                 presencia de consumo, por lo que no debe considerarse su causa principal, sino un factor agravante
+            </p>
+        </div>
+
+        <!-- G2 -->
+        <h2>Distribución del consumo de alcohol</h2>
+        <img src="/static/{{ g2 }}" class="grafica">
+        <div class="analisis">
+            <p>
+                El consumo de alcohol es un poco mayor que el de sustancias (SPA) sin embargo, sigue siendo baja.
+            </p>
+        </div>
+
+        <!-- G3 -->
+        <h2>Consumo de SPA según el sexo de la víctima</h2>
+        <img src="/static/{{ g3 }}" class="grafica">
+        <div class="analisis">
+            <p>
+                Se observa que las mujeres constituyen la mayoría de los casos registrados, tanto en las situaciones con consumo 
+                como sin consumo. Esto confirma la mayor vulnerabilidad de las mujeres frente a la violencia interpersonal,
+                 fenómeno ampliamente documentado en estudios de género.
+            </p>
+        </div>
+
+        <!-- G4 -->
+        <h2>Consumo de SPA según la relación víctima–agresor</h2>
+        <img src="/static/{{ g4 }}" class="grafica">
+        <div class="analisis">
+            <p>
+                los datos muestran que las agresiones provienen especialmente de parejas y familiares cercanos, incluso
+                 cuando no hay consumo de SPA. Esto refuerza la idea de que la violencia suele originarse en entornos íntimos 
+                 y cotidianos, donde existen relaciones de poder, dependencia emocional o económica, y dinámicas de control 
+                 que no necesariamente están asociadas al consumo de sustancias.
+            </p>
+        </div>
+
+        <!-- G5 -->
+        <h2>Heatmap: consumo de SPA vs mecanismo de agresión</h2>
+        <img src="/static/{{ g5 }}" class="grafica">
+        <div class="analisis">
+            <p>
+               El heatmap que relaciona mecanismo de agresión con consumo revela que, independientemente del consumo de SPA, 
+               los mecanismos más frecuentes son las agresiones contundentes y otras formas de violencia física directa. El 
+               consumo sí aparece en pequeños porcentajes, pero nuevamente se ve que la agresión física ocurre mayoritariamente 
+               sin sustancias involucradas
+            </p>
+        </div>
+
+        <!-- G6 -->
+        <h2>Consumo de SPA según rango de edad de la víctima</h2>
+        <img src="/static/{{ g6 }}" class="grafica">
+        <div class="analisis">
+            <p>
+                Se muestra una mayor concentración de casos entre los 11 y 
+                los 40 años. Aunque el consumo de SPA en víctimas sigue siendo bajo en todos los rangos, el hecho de que los 
+                casos se concentren en edades jóvenes coincide con la mayor exposición a relaciones de pareja tempranas, 
+                dependencia económica o emocional, y vulnerabilidades sociales propias de estas etapas.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="separador"></div>
+
+    <!-- CONCLUSIÓN -->
+    <div class="tarjeta">
+        <h2>Conclusiones</h2>
+        <p>
+            Los gráficos revelan que la violencia de género no depende principalmente del consumo de alcohol o sustancias 
+            psicoactivas, aunque estos factores pueden intensificarla. La mayor parte de las agresiones ocurre en relaciones 
+            de cercanía afectiva —parejas, exparejas y familiares— y afecta de forma desproporcionada a mujeres jóvenes. Los 
+            datos sugieren que la raíz de la violencia se encuentra en factores estructurales como los roles de género 
+            tradicionales, la desigualdad, los patrones de control y la normalización de la agresión dentro de dinámicas 
+            familiares o de pareja.
+        </p>
+    </div>
+
+      <div class="tarjeta">
+        <h2>Prevención</h2>
+        <p>
+            La prevención debe centrarse no solo en el consumo de sustancias, sino especialmente en transformar las dinámicas 
+            relacionales y culturales que permiten la violencia. Esto incluye la educación temprana en igualdad, la promoción 
+            de relaciones afectivas sanas, el fortalecimiento de redes de apoyo y la detección temprana de señales de control o 
+            agresión en parejas jóvenes. También es crucial empoderar a las víctimas, facilitar rutas claras de denuncia y acceso
+             a protección, y formar a la comunidad para reconocer e intervenir ante posibles situaciones de riesgo.
+        </p>
+    </div>
+
+</div>
+
+<footer>
+    <p>Proyecto Observatorio de Datos – Tunja © 2025</p>
+</footer>
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#tablaDatos').DataTable();
+    });
+</script>
+
+</body>
+</html>

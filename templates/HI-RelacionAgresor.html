@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Análisis de la Relación con el Agresor</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/static/css/estilos2.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+
+    <style>
+        .boton-descarga {
+            display: inline-block;
+            padding: 10px 20px;
+            background:#2b7cff;
+            color:white;
+            text-decoration:none;
+            border-radius:8px;
+            font-weight:bold;
+            margin-top:10px;
+        }
+        .boton-descarga:hover {
+            background:#1d5ecc;
+        }
+        .separador { height:35px; }
+    </style>
+</head>
+
+<body>
+
+<header></header>
+
+<div class="contenedor">
+
+    <!-- INTRODUCCIÓN -->
+    <div class="tarjeta">
+        <center><h2>Relación entre la víctima y el agresor</h2></center>
+        <p>
+            Esta sección analiza cómo la relación entre la víctima y el agresor influye en el comportamiento de la violencia,
+            la frecuencia de los casos, los factores sociales y el nivel de riesgo.
+            Se incluyen variables clave como la edad, el sexo de ambas partes, los antecedentes de violencia previos
+            y si conviven o no.
+        </p>
+    </div>
+
+    <!-- TABLA -->
+    <div class="tarjeta">
+        <h2>Datos</h2>
+
+        <table id="tablaDatos" class="display" width="100%">
+            <thead>
+                <tr>
+                    {% for col in columnas %}
+                    <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for fila in tabla %}
+                <tr>
+                    {% for col in columnas %}
+                    <td>{{ fila[col] }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="separador"></div>
+
+    <!-- GRÁFICAS -->
+    <div class="tarjeta">
+        <center><h2>Interpretación de los gráficos</h2></center>
+        <p>
+            Las gráficas permiten identificar patrones clave: quiénes suelen ser los agresores,
+            qué grupos presentan más riesgo, cómo influye la convivencia, la edad y el historial de violencia.
+            Estos patrones son fundamentales para el análisis de riesgo y las rutas de atención.
+        </p>
+
+        <!-- G1 -->
+        <h2>Distribución general según la relación víctima–agresor</h2>
+        <img src="/static/{{ g1 }}" class="grafica">
+        <div class="analisis">
+            <p>
+                El gráfico muestra que la mayoría de los casos de violencia ocurren dentro de relaciones de pareja, 
+                muy por encima del resto de categorías. Le siguen los casos donde no existe una relación previa y luego los 
+                familiares. Esto evidencia que el ambiente íntimo y afectivo es donde se concentra la mayor parte de la violencia 
+                reportada.
+            </p>
+        </div>
+
+        <!-- G2 -->
+        <h2>Edad promedio de la víctima según relación con el agresor</h2>
+        <img src="/static/{{ g2 }}" class="grafica">
+        <div class="analisis">
+            <p>
+                Se observa que la mayor concentración de víctimas se encuentra entre los 21 y 40 años, principalmente en 
+                relaciones de pareja y familiares. Aunque hay casos en todos los rangos de edad, la población joven-adulta
+                 es la más afectada, lo que coincide con etapas de mayor convivencia y vínculos afectivos intensos.
+            </p>
+        </div>
+
+        <!-- G3 -->
+        <h2>Convivencia con el agresor según tipo de relación</h2>
+        <img src="/static/{{ g3 }}" class="grafica">
+        <div class="analisis">
+            <p>
+               El gráfico revela que la violencia en parejas aumenta significativamente cuando existe convivencia, 
+               lo que sugiere que la cercanía diaria y la dependencia facilitan situaciones de control y abuso. En contraste, 
+               en casos de ex pareja, la violencia ocurre sobre todo cuando ya no conviven, asociada a conflictos tras la ruptura.
+            </p>
+        </div>
+
+        <!-- G4 -->
+        <h2>Antecedentes de violencia según relación con el agresor</h2>
+        <img src="/static/{{ g4 }}" class="grafica">
+        <div class="analisis">
+            <p>
+                Se evidencia que tanto en parejas como en familiares existe una proporción importante de agresores con 
+                antecedentes de violencia. Esto indica que la violencia tiende a repetirse y escalar cuando no hay intervención 
+                temprana o protección adecuada.
+            </p>
+        </div>
+
+        <!-- G5 -->
+        <h2>Sexo de la víctima según relación con el agresor</h2>
+        <img src="/static/{{ g5 }}" class="grafica">
+        <div class="analisis">
+            <p>
+                El heatmap muestra que las mujeres son las principales víctimas y los hombres los principales agresores. 
+                Aunque existen casos de hombres víctimas y agresoras mujeres, la tendencia mayoritaria confirma el carácter
+                estructural de la violencia de género.
+            </p>
+        </div>
+
+      
+
+    </div>
+
+    <div class="separador"></div>
+
+    <!-- CONCLUSIÓN -->
+    <div class="tarjeta">
+        <h2>Conclusion</h2>
+        <p>
+           Los gráficos reflejan un panorama donde la violencia ocurre mayormente dentro de relaciones afectivas cercanas, 
+           siendo la pareja el principal agresor. Esta violencia afecta sobre todo a mujeres jóvenes y adultas, en contextos 
+           de convivencia y frecuentemente con antecedentes previos.
+        </p>
+    </div>
+
+      <div class="tarjeta">
+        <h2>Prevención</h2>
+        <p>
+        Es fundamental reconocer señales tempranas de control, como celos excesivos, manipulación emocional, restricciones 
+        sobre amistades o actividades, y la degradación verbal sutil que suele preceder a la violencia física. También es 
+        esencial fortalecer redes de apoyo: familia, amistades, instituciones educativas y laborales deben estar sensibilizadas 
+        para escuchar, validar y orientar a quienes se encuentran en riesgo.
+        </p>
+    </div>
+
+</div>
+
+<footer>
+    <p>Proyecto Observatorio de Datos – Tunja © 2025</p>
+</footer>
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#tablaDatos').DataTable();
+    });
+</script>
+
+</body>
+</html>

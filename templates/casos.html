@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Casos</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/static/css/estilos2.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+          
+        }
+
+        form {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            width: 350px;
+        }
+
+        button {
+            padding: 8px 14px;
+            cursor: pointer;
+            background: #1a73e8;
+            border: none;
+            color: white;
+            border-radius: 6px;
+        }
+
+        /* Contenedor FLEX para colocar los gráficos lado a lado */
+        #filaGraficos {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        /* Tamaño de los gráficos superiores */
+        #graficoSexoVictima,
+        #graficoRelacion {
+            width: 450px !important;
+            height: 400px !important;
+        }
+
+        /* Tamaño del gráfico de edad (más ancho) */
+        #graficoEdad {
+            width: 800px !important;
+            height: 450px !important;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <header></header>
+
+<center><h1>Registro de Casos</h1>
+
+<a href="/" style="text-decoration:none;">
+    <button>Volver al inicio</button>
+</a>
+
+<br><br>
+
+<h2>Ingresar un nuevo caso</h2>
+
+<form id="formCaso">
+    <label>Edad víctima:</label><br>
+<input 
+    type="number" 
+    id="edad_victima" 
+    required 
+    min="1" 
+    max="120" 
+    oninput="this.value = this.value.replace(/[^0-9]/g,'');">
+<br><br>
+
+
+    <label>Sexo víctima:</label><br>
+    <select id="sexo_victima" required>
+        <option>Mujer</option>
+        <option>Hombre</option>
+    </select><br><br>
+
+    <label>Relación con el agresor:</label><br>
+    <select id="relacion_agresor" required>
+        <option>Pareja</option>
+        <option>Expareja</option>
+        <option>Familiar</option>
+        <option>Desconocido</option>
+    </select><br><br>
+
+    <label>Sexo del agresor:</label><br>
+    <select id="sexo_agresor" required>
+        <option>Hombre</option>
+        <option>Mujer</option>
+    </select><br><br>
+
+    <label>¿Conviven?</label><br>
+    <select id="convivencia" required>
+        <option>Sí</option>
+        <option>No</option>
+    </select><br><br>
+
+    <button type="submit">Guardar caso</button></center>
+</form>
+
+<hr>
+
+<center><h2>Gráficos</h2></center>
+
+<!-- FILA DE GRÁFICOS (lado a lado) -->
+<div id="filaGraficos">
+    <canvas id="graficoSexoVictima"></canvas>
+    <canvas id="graficoRelacion"></canvas>
+</div>
+
+<!-- GRÁFICO DE EDADES (abajo) -->
+<canvas id="graficoEdad"></canvas>
+
+<script>
+    document.getElementById("formCaso").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const data = {
+            edad_victima: document.getElementById("edad_victima").value,
+            sexo_victima: document.getElementById("sexo_victima").value,
+            relacion_agresor: document.getElementById("relacion_agresor").value,
+            sexo_agresor: document.getElementById("sexo_agresor").value,
+            convivencia: document.getElementById("convivencia").value
+        };
+
+        await fetch("/crearCaso", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(data)
+        });
+
+        actualizarGraficos();
+        document.getElementById("formCaso").reset();
+    });
+
+    let chart1, chart2, chart3;
+
+    async function actualizarGraficos() {
+
+        // SEXO VÍCTIMA
+        let sexo = await (await fetch("/estadisticas/sexoVictima")).json();
+
+        // RELACIÓN AGRESOR
+        let rel = await (await fetch("/estadisticas/relacionAgresor")).json();
+
+        // EDAD VÍCTIMA
+        let edades = await (await fetch("/estadisticas/edadVictima")).json();
+
+
+        // ------------ GRÁFICO SEXO VÍCTIMA ------------
+        if (chart1) chart1.destroy();
+        chart1 = new Chart(document.getElementById("graficoSexoVictima"), {
+            type: 'pie',
+            data: {
+                labels: Object.keys(sexo),
+                datasets: [{
+                    data: Object.values(sexo)
+                }]
+            }
+        });
+
+        // ------------ GRÁFICO RELACIÓN CON AGRESOR ------------
+        if (chart2) chart2.destroy();
+        chart2 = new Chart(document.getElementById("graficoRelacion"), {
+            type: 'bar',
+            data: {
+                labels: Object.keys(rel),
+                datasets: [{
+                    data: Object.values(rel)
+                }]
+            }
+        });
+
+        // ------------ GRÁFICO EDADES ------------
+function agruparEdades(edades) {
+    // Convertir todas las edades a enteros
+    edades = edades.map(e => parseInt(e));
+
+    // Crear rangos de 5 en 5
+    let rangos = {};
+    
+    edades.forEach(edad => {
+        let inicio = Math.floor((edad - 1) / 5) * 5 + 1; 
+        let fin = inicio + 4;                            
+
+        let etiqueta = `${inicio}-${fin}`;
+
+        if (!rangos[etiqueta]) rangos[etiqueta] = 0;
+        rangos[etiqueta]++;
+    });
+
+    return rangos;
+}
+
+
+// -------- GRÁFICO EDADES POR RANGOS --------
+if (chart3) chart3.destroy();
+
+let rangos = agruparEdades(edades);
+
+chart3 = new Chart(document.getElementById("graficoEdad"), {
+    type: 'bar',
+    data: {
+        labels: Object.keys(rangos),
+        datasets: [{
+            label: "Víctimas por rango de edad",
+            data: Object.values(rangos)
+        }]
+    },
+    options: {
+        scales: {
+            y: { beginAtZero: true }
+        }
+    }
+});
+
+    }
+
+    actualizarGraficos();
+</script>
+
+</body>
+</html>

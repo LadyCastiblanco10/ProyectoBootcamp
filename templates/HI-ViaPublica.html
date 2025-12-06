@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Análisis de Vía Pública</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/static/css/estilos2.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+
+    <style>
+        .boton-descarga {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #2b7cff;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .boton-descarga:hover {
+            background: #1d5ecc;
+        }
+        .separador {
+            height: 35px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+   
+
+</header>
+
+
+<div class="contenedor">
+
+    <!-- INTRODUCCIÓN -->
+    <div class="tarjeta">
+        <center><h2> Violencia en la vía pública</h2></center>
+        <p>
+            Este análisis examina los casos de violencia registrados en la vía pública, considerando
+            variables como el sexo de la víctima, el sexo del agresor, el mecanismo de agresión
+            y la relación entre las partes. La intención es identificar patrones y tendencias que
+            permitan comprender mejor el fenómeno y apoyar la toma de decisiones.
+        </p>
+
+        <a href="https://www.scielo.cl/scielo.php?pid=S0250-71612023000200002&script=sci_arttext" class="boton-descarga">📄 Ver PDF original</a>
+    </div>
+
+    <div class="tarjeta">
+        <h2>Filtrar Por</h2>
+         <div class="filtros">
+            <select id="filtroSexoVictima">
+                <option value="">Sexo víctima (Todos)</option>
+            </select>
+
+            <select id="filtroAgresor">
+                <option value="">Relación agresor (Todos)</option>
+            </select>
+        </div>
+        <h2>Datos filtrados</h2>
+
+        <table id="tablaDatos" class="display" width="100%">
+            <thead>
+                <tr>
+                    {% for col in columnas %}
+                    <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for fila in tabla %}
+                <tr>
+                    {% for col in columnas %}
+                    <td>{{ fila[col] }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="separador"></div>
+
+
+    <!-- GRÁFICAS -->
+    <div class="tarjeta">
+        <center><h2>Interpretación inicial de los gráficos</h2></center>
+        <p>
+            A continuación se presentan visualizaciones que permiten comprender la distribución
+            de las víctimas, los mecanismos utilizados y la relación entre agresores y víctimas.
+            Estas gráficas facilitan identificar concentraciones, comportamientos repetitivos
+            y relaciones de interés en la vía pública.
+        </p>
+
+
+        <h2>Víctimas por sexo</h2>
+        <img src="/static/{{ g1 }}" class="grafica">
+        <div class="analisis">
+
+            <p>La distribución de víctimas muestra una marcada diferencia entre los sexos: las mujeres representan la inmensa
+                 mayoría de los casos de violencia en vía pública, mientras que los hombres aparecen en proporciones mucho menores.
+                  Esta brecha evidencia una vulnerabilidad significativamente mayor hacia las mujeres en los espacios públicos,
+                   reflejando patrones estructurales de desigualdad y agresión dirigidos principalmente hacia ellas.</p>
+        </div>
+    
+
+        <h2>Distribución de edades</h2>
+        <img src="/static/{{ g2 }}" class="grafica">
+        <div class="analisis">
+            <p>El histograma revela que la mayor concentración de víctimas se encuentra en edades jóvenes, especialmente entre 
+                los 15 y 30 años. Sin embargo, también se observan casos en personas de mediana edad e incluso mayores, lo que 
+                indica que el riesgo no está limitado a un solo grupo etario. Esta distribución sugiere que las personas más 
+                jóvenes enfrentan mayores situaciones de vulnerabilidad en espacios públicos, posiblemente por exposición, 
+                horarios, dinámicas de movilidad o interacciones sociales frecuentes.</p>
+        </div>
+
+
+        <h2>Mecanismos de agresión más frecuentes</h2>
+        <img src="/static/{{ g3 }}" class="grafica">
+        <div class="analisis">
+            <p>El mecanismo predominante es la agresión contundente, lo que sugiere el uso de objetos o fuerza física directa 
+                como principal forma de ataque. Le siguen “otros mecanismos” y, en menor medida, las caídas y agresiones 
+                cortopunzantes. La alta incidencia del mecanismo contundente podría indicar conflictos espontáneos, agresiones 
+                físicas no planeadas o vulnerabilidades en espacios públicos donde cualquier objeto puede convertirse en arma</p>
+        </div>
+  
+
+        <h2>Relación sexo agresor / sexo víctima</h2>
+        <img src="/static/{{ g4 }}" class="grafica">
+        <div class="analisis">
+            <p> La relación entre ambos sexos evidencia una realidad contundente: la mayoría de agresores son hombres, incluso 
+                cuando la víctima es también femenina. El volumen más alto se ubica en agresores masculinos contra víctimas 
+                femeninas, reforzando patrones de violencia basada en género. Aunque existen casos de agresoras femeninas, 
+                estos son notablemente bajos, y tanto víctimas femeninas como masculinas presentan mayor probabilidad de ser 
+                agredidas por un hombre.</p>
+        </div>
+    </div>
+
+    <div class="separador"></div>
+
+    <!-- TABLAS EXTRA -->
+    {% for tabla in tablas_extra %}
+    <div class="tarjeta">
+        <h2>{{ tabla.nombre }}</h2>
+
+        <table class="tabla-simple">
+            <thead>
+                <tr>
+                    {% for col in tabla.columnas %}
+                    <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for fila in tabla.datos %}
+                <tr>
+                    {% for col in tabla.columnas %}
+                    <td>{{ fila[col] }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endfor %}
+
+    <div class="separador"></div>
+
+    <!-- CONCLUSIÓN -->
+    <div class="tarjeta">
+        <center><h2>Conclusion</h2></center>
+        <p>
+           Los datos analizados permiten concluir que la violencia en vía pública se caracteriza por una fuerte 
+           concentración de víctimas femeninas, principalmente jóvenes, que enfrentan agresiones mayoritariamente 
+           físicas y perpetradas en su mayoría por hombres. La predominancia del mecanismo contundente refuerza la 
+           idea de agresiones rápidas y directas, asociadas a violencia interpersonal o situaciones de conflicto en 
+           entornos urbanos.
+        </p>
+    </div>
+
+     <div class="tarjeta">
+        <center><h2>Prevención para las víctimas</h2></center>
+        <p>
+           A partir de los patrones identificados, la prevención debe considerar tanto estrategias individuales como comunitarias
+            e institucionales. Es fundamental fortalecer la presencia de iluminación, cámaras de vigilancia y rutas seguras en 
+            zonas donde transita mayor población joven y femenina, quienes representan el grupo más afectado. También se deben 
+            promover campañas de sensibilización sobre violencia en espacios públicos, orientadas a modificar comportamientos 
+            agresivos y a aumentar la conciencia ciudadana. A nivel individual, la recomendación es evitar desplazamientos 
+            solitarios en horarios nocturnos, mantener rutas conocidas, comunicar recorridos a terceros y estar atentos al 
+            entorno.
+        </p>
+    </div>
+
+</div>
+
+<footer>
+    <p>Proyecto Observatorio de Datos – Tunja © 2025</p>
+</footer>
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="/static/js/filtros.js"></script>
+
+</body>
+</html>

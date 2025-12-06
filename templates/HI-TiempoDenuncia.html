@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Tiempo entre Hecho y Denuncia</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/static/css/estilos2.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+
+    <style>
+        .boton-descarga {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #2b7cff;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .boton-descarga:hover {
+            background: #1d5ecc;
+        }
+        .separador {
+            height: 35px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+   
+
+</header>
+
+<div class="contenedor">
+
+    <!-- INTRODUCCIÓN -->
+    <div class="tarjeta">
+        <center><h2>Tiempo entre el hecho y la denuncia</h2></center>
+        <p>
+            En esta sección se analiza cuánto tiempo transcurre entre el momento del hecho y la denuncia realizada
+            por la víctima. Este indicador es clave para comprender el acceso a la justicia, las barreras psicológicas
+            y sociales para denunciar, y los patrones que influyen en el tiempo de espera.
+        </p>
+    </div>
+
+    <!-- TABLA Y FILTROS -->
+    <div class="tarjeta">
+        <h2>Filtrar por</h2>
+         <div class="filtros">
+            <select id="filtroSexoVictima">
+                <option value="">Sexo víctima (Todos)</option>
+            </select>
+
+            <select id="filtroAgresor">
+                <option value="">Relación agresor (Todos)</option>
+            </select>
+        </div>
+
+        <h2>Datos filtrados</h2>
+
+        <table id="tablaDatos" class="display" width="100%">
+            <thead>
+                <tr>
+                    {% for col in columnas %}
+                    <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for fila in tabla %}
+                <tr>
+                    {% for col in columnas %}
+                    <td>{{ fila[col] }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="separador"></div>
+
+    <!-- GRÁFICAS -->
+    <div class="tarjeta">
+        <center><h2>Interpretación de los gráficos</h2></center>
+        <p>
+            Las siguientes visualizaciones permiten comprender cómo se distribuye el tiempo de espera, las diferencias
+            según sexo y cómo varía según la relación entre víctima y agresor. Estos patrones ayudan a identificar
+            factores que influyen en la decisión de denunciar y posibles dinámicas de riesgo.
+        </p>
+
+
+        <!-- G1 -->
+        <h2>Distribución del tiempo de espera</h2>
+        <img src="/static/{{ g1 }}" class="grafica">
+        <div class="analisis">
+            <p>
+                El histograma muestra cuántos días suelen pasar entre el hecho y la denuncia. La mayoría de los casos se concentran
+                en los primeros días, aunque existe un número importante de denuncias que se realizan semanas o incluso meses después.
+            </p>
+        </div>
+
+        <!-- G2 -->
+        <h2>Promedio de días por sexo de la víctima</h2>
+        <img src="/static/{{ g2 }}" class="grafica">
+        <div class="analisis">
+            <p>
+                Aquí se observan diferencias en el tiempo de espera entre mujeres y hombres. En algunos contextos, las mujeres pueden tardar
+                más en denunciar debido a miedo, presión social o falta de acompañamiento institucional.
+            </p>
+        </div>
+
+        <!-- G3 -->
+        <h2>Días promedio según relación víctima–agresor</h2>
+        <img src="/static/{{ g3 }}" class="grafica">
+        <div class="analisis">
+            <p>
+               Los gráficos muestran que relaciones como PADRE, EX PAREJA, NINGUNO (posible conocido), FAMILIAR tienen tiempos más altos de denuncia (20–24 días).
+Esto sugiere:
+Las víctimas tardan más en denunciar cuando el agresor pertenece al círculo familiar o afectivo cercano debido al miedo, dependencia económica/emocional o normalización de la violencia.
+            </p>
+        </div>
+
+        <!-- G4 -->
+        <h2>Días promedio según Antecedentes de Violencia</h2>
+        <img src="/static/{{ g4 }}" class="grafica">
+        <div class="analisis">
+            <p>
+               Las víctimas con antecedentes de violencia denuncian más rápido. Esto sugiere que ya han vivido episodios previos, tienen más información y menos duda.
+               Por otro lado, Las víctimas sin antecedentes tardan más en denunciar porque no identifican el riesgo inicialmente. Cuando es la primera vez que ocurre la violencia, la víctima puede 
+               tardar más en reconocer la gravedad y en buscar ayuda, lo que aumenta el tiempo antes de denunciar.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="separador"></div>
+
+    <!-- CONCLUSIÓN -->
+    <div class="tarjeta">
+        <h2>Conclusion</h2>
+        <p>
+           El tiempo de espera para denunciar revela dinámicas profundas asociadas al miedo, la falta de apoyo, la relación con 
+           el agresor y la experiencia previa de la víctima. Aunque muchas denuncias se realizan en los primeros días, una parte
+            significativa ocurre semanas o meses después, especialmente cuando el agresor forma parte del círculo familiar o 
+            emocional. Las mujeres presentan mayores tiempos de espera, lo que refleja barreras sociales y psicológicas más 
+            complejas
+        </p>
+    </div>
+
+       <div class="tarjeta">
+        <h2>Prevención</h2>
+        <p>
+           Para reducir los tiempos de denuncia, es fundamental fortalecer las rutas de atención y asegurar que las víctimas
+            cuenten con apoyo oportuno desde el primer momento. Es necesario implementar campañas que informen sobre los pasos
+             para denunciar, los lugares a los que pueden acudir y los derechos que las protegen, especialmente dirigidas a
+              mujeres y a personas que puedan enfrentar barreras familiares o emocionales. También se deben crear espacios 
+              seguros y confidenciales donde las víctimas puedan recibir acompañamiento psicológico y legal sin miedo a 
+              represalias.
+        </p>
+    </div>
+
+</div>
+
+<footer>
+    <p>Proyecto Observatorio de Datos – Tunja © 2025</p>
+</footer>
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="/static/js/filtros.js"></script>
+
+</body>
+</html>
